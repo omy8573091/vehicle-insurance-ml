@@ -1,0 +1,24 @@
+# dvc.yaml
+stages:
+  process_data:
+    cmd: python src/data/make_dataset.py
+    deps:
+      - data/raw/claims.csv
+      - data/raw/policies.csv
+    outs:
+      - data/processed/clean_data.parquet
+    params:
+      - config/main.yaml
+      - params.yaml
+
+  train_model:
+    cmd: python src/models/train_model.py
+    deps:
+      - data/processed/clean_data.parquet
+      - src/models/train_model.py
+    outs:
+      - models/staging/model.pkl
+    metrics:
+      - metrics/accuracy.json
+    params:
+      - config/model_params.yaml

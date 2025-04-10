@@ -1,0 +1,89 @@
+[tool.poetry]
+name = "insurance-ml"
+version = "0.1.0"
+description = "Vehicle Insurance Risk Prediction System"
+authors = ["Om Prakash <omy8573091@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{ include = "src", from = "." }]
+
+[tool.poetry.dependencies]
+python = ">=3.12,<3.13"  # Explicitly limit to 3.12.x
+apache-airflow = { version = "2.7.3", extras = ["postgres"], python = "<3.13" }
+scikit-learn = "^1.0.0"
+pandas = "^1.3.0"
+numpy = "^1.21.0"
+mlflow = "^1.26.0"
+dvc = {extras = ["s3"], version = "^2.10.0"}
+python-dotenv = "^0.19.0"
+fastapi = { version = "^0.75.0", optional = true }
+uvicorn = { version = "^0.17.0", optional = true }
+boto3 = "^1.20.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.0.0"
+pytest-cov = "^3.0.0"
+black = "^22.0"
+flake8 = "^4.0.0"
+mypy = "^0.910"
+pre-commit = "^2.0.0"
+jupyter = "^1.0.0"
+ipykernel = "^6.0.0"
+
+[tool.poetry.group.docs.dependencies]
+mkdocs = "^1.0.0"
+mkdocs-material = "^8.0.0"
+
+[tool.poetry.group.notebooks.dependencies]
+jupyterlab = "^3.0.0"
+matplotlib = "^3.0.0"
+seaborn = "^0.11.0"
+
+[tool.poetry.extras]
+api = ["fastapi", "uvicorn"]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--cov=src --cov-report=term-missing"
+python_files = "test_*.py"
+
+[tool.black]
+line-length = 88
+target-version = ["py38"]
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.dvc
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+  | mlruns
+)/
+'''
+
+[tool.flake8]
+max-line-length = 88
+max-complexity = 18
+ignore = "E203,W503"
+exclude = [
+    ".git",
+    "__pycache__",
+    ".dvc",
+    "docs",
+    "mlruns",
+    "notebooks",
+]
+per-file-ignores = [
+    "src/__init__.py:F401",
+    "tests/*:S101",
+]

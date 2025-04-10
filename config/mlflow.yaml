@@ -1,0 +1,12 @@
+tracking:
+  uri: file:./mlruns
+  experiment: insurance-risk
+  registry: sqlite:///mlruns/mlflow.db
+
+artifacts:
+  location: ./mlruns/artifacts
+
+model:
+  signature:
+    inputs: '[{"name": "age", "type": "integer"}, {"name": "mileage", "type": "integer"}]'
+    outputs: '[{"name": "risk_score", "type": "float"}]'
